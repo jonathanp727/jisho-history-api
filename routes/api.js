@@ -9,6 +9,7 @@ router.use('/login', require('./login'));
 router.use(middlewares.authenticate);
 
 router.use('/user', require('./user'));
+router.use('/word', require('./word'));
 
 router.get('/', (req, res) => {
   res.json({ success: true });
