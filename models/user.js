@@ -1,4 +1,4 @@
-const ObjectID = require('mongodb').ObjectID;
+const ObjectId = require('mongodb').ObjectId;
 
 const mongoUtil = require('../helpers/mongoUtil.js');
 const cryptoUtil = require('../helpers/cryptoUtil.js');
@@ -12,7 +12,7 @@ exports.all = (callback) => {
 };
 
 exports.get = (id, callback) => {
-  mongoUtil.getDb().collection(collectionName).findOne({ _id: ObjectID(id) }, (err, result) => {
+  mongoUtil.getDb().collection(collectionName).findOne({ _id: ObjectId(id) }, (err, result) => {
     callback(err, result);
   });
 };
@@ -31,7 +31,7 @@ exports.new = (data, callback) => {
 
 exports.update = (id, data, callback) => {
   const hashResult = cryptoUtil.saltHashPassword(data.password);
-  mongoUtil.getDb().collection(collectionName).updateOne({ _id: ObjectID(id) }, {
+  mongoUtil.getDb().collection(collectionName).updateOne({ _id: ObjectId(id) }, {
     username: data.username,
     password: hashResult.passwordHash,
     salt: hashResult.salt,
@@ -41,7 +41,7 @@ exports.update = (id, data, callback) => {
 };
 
 exports.delete = (id, callback) => {
-  mongoUtil.getDb().collection(collectionName).deleteOne({ _id: ObjectID(id) }, (err) => {
+  mongoUtil.getDb().collection(collectionName).deleteOne({ _id: ObjectId(id) }, (err) => {
     callback(err);
   });
 };
