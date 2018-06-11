@@ -6,7 +6,7 @@ module.exports = {
   authenticate(req, res, next) {
     const token = req.body.token || req.headers['x-access-token'];
     if (token) {
-      jwt.verify(token, process.env.JWT_KEY, (err, decoded) => {
+      jwt.verify(token, "JWT KEY", (err, decoded) => {
         if (err) {
           const error = new Error('Failed to authenticate token');
           error.status = 401;

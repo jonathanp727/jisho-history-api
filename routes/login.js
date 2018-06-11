@@ -21,7 +21,7 @@ router.post('/', (req, res, next) => {
         error.status = 401;
         return next(error);
       }
-      const token = jwt.sign(user, process.env.JWT_KEY);
+      const token = jwt.sign(user, "JWT KEY");
       res.json({ success: true, message: 'Authenticated', token });
     }
   });

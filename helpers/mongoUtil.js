@@ -1,7 +1,7 @@
 const { MongoClient } = require('mongodb');
 
 const DB_URL = 'mongodb://localhost:27017';
-const DB_NAME = '';
+const DB_NAME = 'jisho-history';
 let db;
 
 module.exports = {

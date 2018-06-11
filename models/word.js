@@ -5,7 +5,7 @@ const mongoUtil = require('../helpers/mongoUtil.js');
 const collectionName = 'users';
 
 exports.increment = (userId, word, callback) => {
-  mongoUtil.getDb().collection(collectionName).find({ _id: ObjectId(userId), { words: { $elemMatch: {word: word} } } }).toArray((err, result) => {
+  mongoUtil.getDb().collection(collectionName).find({ _id: ObjectId(userId) }, { words: { $elemMatch: {word: word} } }).toArray((err, result) => {
     if(result) {
       // increment
       mongoUtil.getDb().collection(collectionName).update({ _id: ObjectId(userId), 'words.word': word }, { $inc: { 'words.$.word': 1} }, (err) => {
@@ -13,7 +13,7 @@ exports.increment = (userId, word, callback) => {
       });
     } else {
       // add
-      mongoUtil.getDb().collection(collectionName).update({ _id: ObjectId(userId), { $push: { word: word, count: 1}} }, (err) => {
+      mongoUtil.getDb().collection(collectionName).update({ _id: ObjectId(userId) }, { $push: { word: word, count: 1} }, (err) => {
         callback(err);
       });
     }
