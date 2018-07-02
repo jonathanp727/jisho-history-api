@@ -12,8 +12,8 @@ router.post('/', (req, res, next) => {
 });
 
 // delete
-router.delete('/:word', (req, res, next) => {
-  wordModel.delete(req.decoded._id, req.params.word, (err) => {
+router.delete('/', (req, res, next) => {
+  wordModel.delete(req.decoded._id, req.body.word, (err) => {
     if (err) return next(err);
     res.json({ success: true });
   });

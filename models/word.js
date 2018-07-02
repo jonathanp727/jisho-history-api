@@ -32,7 +32,9 @@ exports.increment = (userId, word, callback) => {
 };
 
 exports.delete = (userId, word, callback) => {
-  mongoUtil.getDb().collection(collectionName).update({ _id: ObjectId(userId) }, { $pull: { 'words.word': word } }, (err) => {
+  mongoUtil.getDb().collection(collectionName).update({
+    _id: ObjectId(userId),
+  }, { $pull: { words: { word } } }, (err) => {
     callback(err);
   });
 };
