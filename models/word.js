@@ -1,27 +1,38 @@
-const ObjectId = require('mongodb').ObjectID;
+const { ObjectId } = require('mongodb');
 
 const mongoUtil = require('../helpers/mongoUtil.js');
 
 const collectionName = 'users';
 
 exports.increment = (userId, word, callback) => {
-  mongoUtil.getDb().collection(collectionName).find({ _id: ObjectId(userId) }, { words: { $elemMatch: {word: word} } }).toArray((err, result) => {
-    if(result) {
+  mongoUtil.getDb().collection(collectionName).find({
+    _id: ObjectId(userId),
+    words: {
+      $elemMatch: { word: { $eq: word } },
+    },
+  }).toArray((err, result) => {
+    if (result.length) {
       // increment
-      mongoUtil.getDb().collection(collectionName).update({ _id: ObjectId(userId), 'words.word': word }, { $inc: { 'words.$.word': 1} }, (err) => {
-        callback(err);
+      mongoUtil.getDb().collection(collectionName).update({ _id: ObjectId(userId), 'words.word': word }, { $inc: { 'words.$.count': 1 } }, (err2) => {
+        callback(err2);
       });
     } else {
       // add
-      mongoUtil.getDb().collection(collectionName).update({ _id: ObjectId(userId) }, { $push: { word: word, count: 1} }, (err) => {
-        callback(err);
+      mongoUtil.getDb().collection(collectionName).update({
+        _id: ObjectId(userId),
+      }, {
+        $push: {
+          words: { word, count: 1 },
+        },
+      }, (err2) => {
+        callback(err2);
       });
     }
   });
-}
+};
 
 exports.delete = (userId, word, callback) => {
-  mongoUtil.getDb().collection(collectionName).update({ _id:ObjectId(userId) }, { $pull: { 'words.word': word}}), (err) => {
+  mongoUtil.getDb().collection(collectionName).update({ _id: ObjectId(userId) }, { $pull: { 'words.word': word } }, (err) => {
     callback(err);
-  }
-}
+  });
+};

@@ -24,6 +24,7 @@ exports.new = (data, callback) => {
     password: hashResult.passwordHash,
     salt: hashResult.salt,
     isAdmin: data.isAdmin,
+    words: [],
   }, (err, result) => {
     callback(err, result);
   });
