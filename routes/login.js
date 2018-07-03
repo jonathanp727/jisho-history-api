@@ -7,7 +7,6 @@ const cryptoUtil = require('../helpers/cryptoUtil.js');
 const router = express.Router();
 
 router.post('/', (req, res, next) => {
-  console.log(req.body);
   mongoUtil.getDb().collection('users').findOne({ username: req.body.username }, (err, user) => {
     if (err) return next(err);
 
