@@ -10,7 +10,7 @@ router.post('/', (req, res, next) => {
   userModel.new(req.body, (err, result) => {
     if (err) return next(err);
     const token = jwt.sign(result.ops[0], 'JWT KEY');
-    res.json({ success: true, message: 'Authenticated', token });
+    res.json({ success: true, message: 'Authenticated', token, id: result.insertedId });
   });
 });
 
