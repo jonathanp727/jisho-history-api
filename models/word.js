@@ -5,6 +5,7 @@ const mongoUtil = require('../helpers/mongoUtil.js');
 const collectionName = 'users';
 
 exports.increment = (userId, word, callback) => {
+  const date = new Date();
   mongoUtil.getDb().collection(collectionName).find({
     _id: ObjectId(userId),
     words: {
@@ -14,8 +15,9 @@ exports.increment = (userId, word, callback) => {
     if (result.length) {
       // increment
       mongoUtil.getDb().collection(collectionName).update({ _id: ObjectId(userId), 'words.word': word }, {
+        $set: { 'words.$.latestIncrement': date }, 
         $inc: { 'words.$.count': 1 },
-        $push: { 'words.$.dates': new Date() },
+        $push: { 'words.$.dates': date },
       }, (err2) => {
         callback(err2);
       });
@@ -25,7 +27,7 @@ exports.increment = (userId, word, callback) => {
         _id: ObjectId(userId),
       }, {
         $push: {
-          words: { word, count: 1, dates: [new Date()] },
+          words: { word, count: 1, dates: [date], latestIncrement: date },
         },
       }, (err2) => {
         callback(err2);
