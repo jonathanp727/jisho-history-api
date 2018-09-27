@@ -21,7 +21,10 @@ router.post('/', (req, res, next) => {
         error.status = 401;
         return next(error);
       }
-      const token = jwt.sign(user, 'JWT KEY');
+      // Create userData object that doesn't contain data for words
+      // This keeps jwt tokens from being infinitely large
+      const { words, ...userData } = user;
+      const token = jwt.sign(userData, 'JWT KEY');
       res.json({ success: true, message: 'Authenticated', token, user });
     }
   });
