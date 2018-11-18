@@ -10,6 +10,7 @@ router.use(middlewares.authenticate);
 
 router.use('/user', require('./user'));
 router.use('/word', require('./word'));
+router.use('/image', require('./image'));
 
 router.get('/', (req, res) => {
   res.json({ success: true });
