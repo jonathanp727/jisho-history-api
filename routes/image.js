@@ -27,7 +27,6 @@ router.post('/', upload.single('image'), (req, res, next) => {
     if (err) next(err);
     res.setHeader('content-type', 'text/json');
     const tokens = tokenizerUtil.tokenize(result);
-    console.log(tokens);
     res.json({ result, tokens });
   });
 });

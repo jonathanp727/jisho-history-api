@@ -5,9 +5,9 @@ const router = express.Router();
 
 // increment
 router.post('/', (req, res, next) => {
-  wordModel.increment(req.decoded._id, req.body.word, req.body.sentence, (err) => {
+  wordModel.increment(req.decoded._id, req.body.word, req.body.sentence, (err, newWord) => {
     if (err) return next(err);
-    res.json({ success: true });
+    res.json({ success: true, newWord });
   });
 });
 

@@ -25,7 +25,7 @@ exports.increment = (userId, word, sentence, callback) => {
         $inc: { 'words.$.count': 1 },
         $push: pushObj,
       }, (err2) => {
-        callback(err2);
+        callback(err2, date);
       });
     } else {
       // Only add sentence if it's not null
@@ -34,21 +34,23 @@ exports.increment = (userId, word, sentence, callback) => {
         sentenceArr.push(sentence);
       }
 
+      const newWord = {
+        word,
+        count: 1,
+        dates: [date],
+        sentences: sentenceArr,
+        latestIncrement: date,
+      };
+
       // add
       mongoUtil.getDb().collection(collectionName).update({
         _id: ObjectId(userId),
       }, {
         $push: {
-          words: {
-            word,
-            count: 1,
-            dates: [date],
-            sentences: sentenceArr,
-            latestIncrement: date,
-          },
+          words: newWord,
         },
       }, (err2) => {
-        callback(err2);
+        callback(err2, newWord);
       });
     }
   });
