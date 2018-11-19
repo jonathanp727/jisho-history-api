@@ -4,6 +4,7 @@ const multer = require('multer');
 const router = express.Router();
 const pathToImages = './helpers/ocr/images';
 const ocrUtil = require('../helpers/ocr/ocrUtil');
+const tokenizerUtil = require('../helpers/tokenizerUtil');
 
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
@@ -25,7 +26,9 @@ router.post('/', upload.single('image'), (req, res, next) => {
   ocrUtil.parseImage(req.body.newFilename, (err, result) => {
     if (err) next(err);
     res.setHeader('content-type', 'text/json');
-    res.json({ result });
+    const tokens = tokenizerUtil.tokenize(result);
+    console.log(tokens);
+    res.json({ result, tokens });
   });
 });
 

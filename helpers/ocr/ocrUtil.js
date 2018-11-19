@@ -12,7 +12,8 @@ module.exports = {
         callback(err);
         return;
       }
-      callback(null, stdout);
+
+      callback(null, stdout.replace(/\s+/g, ''));
       fs.unlink(fullname, (err2) => {
         if (err2) console.log(err2);
       });
