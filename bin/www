@@ -33,7 +33,7 @@ require('../helpers/mongoUtil.js').connectToServer(function(err) {
      * Listen on provided port, on all network interfaces.
      */
 
-    server.listen(port);
+    server.listen(port, process.env.IPV4);
     server.on('error', onError);
     server.on('listening', onListening);
 
