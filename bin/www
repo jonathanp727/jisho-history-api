@@ -29,6 +29,17 @@ require('../helpers/mongoUtil.js').connectToServer(function(err) {
      */
     const server = http.createServer(app);
 
+    // Socket io
+    exports.io = require('socket.io').listen(server);
+
+    exports.io.on('connection', (client) => {
+      console.log('client connected...');
+
+      client.on('userId', (id) => {
+        client.join(id);
+      });
+    });
+
     /**
      * Listen on provided port, on all network interfaces.
      */
